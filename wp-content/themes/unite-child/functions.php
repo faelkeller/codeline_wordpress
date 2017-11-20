@@ -27,7 +27,8 @@ function type_post_films() {
         'has_archive' => true,
         'hierarchical' => false,
         'menu_position' => null,
-        'supports' => array('title', 'editor', 'thumbnail', 'comments', 'excerpt', 'custom-fields', 'revisions', 'trackbacks')
+        'register_meta_box_cb' => 'films_meta_box',
+        'supports' => array('title', 'editor', 'thumbnail', 'comments', 'revisions')
     );
 
     register_post_type('films', $args);
@@ -85,3 +86,32 @@ function create_film_tax() {
         )
     );
 }
+
+function films_meta_box(){        
+    add_meta_box('meta_box_ticket', __('Ticket Price'), 'meta_box_ticket_show', 'films', 'side', 'high');
+    add_meta_box('meta_box_release', __('Release Date'), 'meta_box_release_show', 'films', 'side', 'high');
+}
+
+?>
+
+<?php
+function meta_box_ticket_show(){
+      global $post;
+      $ticket_price = get_post_meta($post->ID, 'ticket_price', true); 
+      
+?>  
+    <input type="text" name="ticket_price" id="ticket_price" value="<?php echo $ticket_price; ?>" />        
+<?php
+    }
+?>
+
+    <?php
+function meta_box_release_show(){
+      global $post;      
+      $release_date = get_post_meta($post->ID, 'release_date', true); 
+?>  
+    
+    <input type="text" name="release_date" id="release_date" value="<?php echo $release_date; ?>" />
+<?php
+    }
+?>
