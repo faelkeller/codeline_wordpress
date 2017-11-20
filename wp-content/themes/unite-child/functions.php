@@ -105,28 +105,41 @@ function save_films_post() {
     update_post_meta($post->ID, 'release_date', $_POST['release_date']);
 }
 
-function change_list_post( $post_object ) {
-    if (is_archive()){
+function change_list_post($post_object) {
+    if (is_archive()) {
         $ticket_price = get_post_meta($post_object->ID, 'ticket_price', true);
         $release_date = get_post_meta($post_object->ID, 'release_date', true);
         $post_object->ticket_price = $ticket_price;
         $post_object->release_date = $release_date;
-        
+
         return_terms('country', $post_object);
         return_terms('genres', $post_object);
     }
 }
 
-add_action( 'the_post', 'change_list_post' );
+add_action('the_post', 'change_list_post');
 
-function return_terms($key, &$post_object){
+function return_terms($key, &$post_object) {
     $terms = get_the_terms($post_object->ID, $key);
-    
+
     $post_object->{$key} = "";
-    
-    if (!empty($terms) && !is_wp_error($terms)){
-        foreach ($terms as $term){
-            $post_object->{$key} .= $term->name."; ";
+
+    if (!empty($terms) && !is_wp_error($terms)) {
+        foreach ($terms as $term) {
+            $post_object->{$key} .= $term->name . "; ";
         }
     }
 }
+
+function last_films_function() {
+    $posts = query_posts('posts_per_page=5&post_type=films');
+    $films = "";
+    $films .= '<ul class="list-group">';
+    foreach ($posts as $post) {
+        $films .= '<li class="list-group-item">'.$post->post_title.'</li>';
+    }
+    $films .= '</ul>';
+    return $films;
+}
+
+add_shortcode('last_films', 'last_films_function');
