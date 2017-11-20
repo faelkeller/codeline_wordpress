@@ -10,7 +10,7 @@ add_action('init', 'type_post_films');
 
 function type_post_films() {
     $labels = array(
-        'name' => _x('Films', 'post type general name'),
+        'name' => _x('Films', 'post type general name'),        
         'singular_name' => _x('Film', 'post type singular name'),
         'parent_item_colon' => '',
         'menu_name' => 'Films'
@@ -19,6 +19,7 @@ function type_post_films() {
     $args = array(
         'labels' => $labels,
         'public' => true,
+        "description"=> 'Films',
         'public_queryable' => true,
         'show_ui' => true,
         'query_var' => true,
