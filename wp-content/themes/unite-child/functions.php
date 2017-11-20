@@ -39,79 +39,66 @@ add_action('init', 'create_film_tax');
 
 function create_film_tax() {
     register_taxonomy(
-        "genres", 
-        "films", 
-        array(
-            "label" => "Genres",
-            "singular_label" => "Genre",
-            'public' => true,
-            'rewrite' => true,
-            'hierarchical' => true,
-        )
+            "genres", "films", array(
+        "label" => "Genres",
+        "singular_label" => "Genre",
+        'public' => true,
+        'rewrite' => true,
+        'hierarchical' => true,
+            )
     );
-    
+
     register_taxonomy(
-        "country", 
-        "films", 
-        array(
-            "label" => "Countries",
-            "singular_label" => "Country",
-            'public' => true,
-            'rewrite' => true,
-            'hierarchical' => true,
-        )
+            "country", "films", array(
+        "label" => "Countries",
+        "singular_label" => "Country",
+        'public' => true,
+        'rewrite' => true,
+        'hierarchical' => true,
+            )
     );
-    
+
     register_taxonomy(
-        "year", 
-        "films", 
-        array(
-            "label" => "Years",
-            "singular_label" => "Year",
-            'public' => true,
-            'rewrite' => true,
-            'hierarchical' => true,
-        )
+            "year", "films", array(
+        "label" => "Years",
+        "singular_label" => "Year",
+        'public' => true,
+        'rewrite' => true,
+        'hierarchical' => true,
+            )
     );
-    
+
     register_taxonomy(
-        "actor", 
-        "films", 
-        array(
-            "label" => "Actors",
-            "singular_label" => "Actor",
-            'public' => true,
-            'rewrite' => true,
-            'hierarchical' => true,
-        )
+            "actor", "films", array(
+        "label" => "Actors",
+        "singular_label" => "Actor",
+        'public' => true,
+        'rewrite' => true,
+        'hierarchical' => true,
+            )
     );
 }
 
-function films_meta_box(){        
+function films_meta_box() {
     add_meta_box('meta_box_ticket', __('Ticket Price'), 'meta_box_ticket_show', 'films', 'side', 'high');
     add_meta_box('meta_box_release', __('Release Date'), 'meta_box_release_show', 'films', 'side', 'high');
 }
-
 ?>
 
 <?php
-function meta_box_ticket_show(){
-      global $post;
-      $ticket_price = get_post_meta($post->ID, 'ticket_price', true); 
-      
-?>  
-    <input type="text" name="ticket_price" id="ticket_price" value="<?php echo $ticket_price; ?>" />        
-<?php
-    }
+
+function meta_box_ticket_show() {
+    global $post;
+    $ticket_price = get_post_meta($post->ID, 'ticket_price', true);
+    echo '<input type="text" name="ticket_price" id="ticket_price" value="' . $ticket_price . '" />';
+}
 ?>
 
-    <?php
-function meta_box_release_show(){
-      global $post;      
-      $release_date = get_post_meta($post->ID, 'release_date', true); 
-?>  
-    
-    <input type="text" name="release_date" id="release_date" value="<?php echo $release_date; ?>" />
 <?php
-    }
+
+function meta_box_release_show() {
+    global $post;
+    $release_date = get_post_meta($post->ID, 'release_date', true);
+    echo '<input type="text" name="release_date" id="release_date" value="' . $release_date . '" />';
+}
 ?>
