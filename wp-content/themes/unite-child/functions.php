@@ -104,3 +104,29 @@ function save_films_post() {
     update_post_meta($post->ID, 'ticket_price', $_POST['ticket_price']);
     update_post_meta($post->ID, 'release_date', $_POST['release_date']);
 }
+
+function change_list_post( $post_object ) {
+    if (is_archive()){
+        $ticket_price = get_post_meta($post_object->ID, 'ticket_price', true);
+        $release_date = get_post_meta($post_object->ID, 'release_date', true);
+        $post_object->ticket_price = $ticket_price;
+        $post_object->release_date = $release_date;
+        
+        return_terms('country', $post_object);
+        return_terms('genres', $post_object);
+    }
+}
+
+add_action( 'the_post', 'change_list_post' );
+
+function return_terms($key, &$post_object){
+    $terms = get_the_terms($post_object->ID, $key);
+    
+    $post_object->{$key} = "";
+    
+    if (!empty($terms) && !is_wp_error($terms)){
+        foreach ($terms as $term){
+            $post_object->{$key} .= $term->name."; ";
+        }
+    }
+}
