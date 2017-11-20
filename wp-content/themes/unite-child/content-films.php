@@ -35,10 +35,16 @@
     <?php endif; ?> 
     
     <div class="entry-content">
-        Teste 1
+        <?php 
+            echo "Ticket Price: ".get_post_meta($post->ID, "ticket_price", true);
+        ?>
     </div>
     
-    
+    <div class="entry-content">
+        <?php 
+            echo "Release Date: ".get_post_meta($post->ID, "release_date", true);
+        ?>
+    </div>
     
     <hr class="section-divider">
 </article><!-- #post-## -->

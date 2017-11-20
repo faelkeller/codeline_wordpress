@@ -10,7 +10,7 @@ add_action('init', 'type_post_films');
 
 function type_post_films() {
     $labels = array(
-        'name' => _x('Films', 'post type general name'),        
+        'name' => _x('Films', 'post type general name'),
         'singular_name' => _x('Film', 'post type singular name'),
         'parent_item_colon' => '',
         'menu_name' => 'Films'
@@ -19,7 +19,7 @@ function type_post_films() {
     $args = array(
         'labels' => $labels,
         'public' => true,
-        "description"=> 'Films',
+        "description" => 'Films',
         'public_queryable' => true,
         'show_ui' => true,
         'query_var' => true,
@@ -84,22 +84,23 @@ function films_meta_box() {
     add_meta_box('meta_box_ticket', __('Ticket Price'), 'meta_box_ticket_show', 'films', 'side', 'high');
     add_meta_box('meta_box_release', __('Release Date'), 'meta_box_release_show', 'films', 'side', 'high');
 }
-?>
-
-<?php
 
 function meta_box_ticket_show() {
     global $post;
     $ticket_price = get_post_meta($post->ID, 'ticket_price', true);
     echo '<input type="text" name="ticket_price" id="ticket_price" value="' . $ticket_price . '" />';
 }
-?>
-
-<?php
 
 function meta_box_release_show() {
     global $post;
     $release_date = get_post_meta($post->ID, 'release_date', true);
     echo '<input type="text" name="release_date" id="release_date" value="' . $release_date . '" />';
 }
-?>
+
+add_action('save_post', 'save_films_post');
+
+function save_films_post() {
+    global $post;
+    update_post_meta($post->ID, 'ticket_price', $_POST['ticket_price']);
+    update_post_meta($post->ID, 'release_date', $_POST['release_date']);
+}
